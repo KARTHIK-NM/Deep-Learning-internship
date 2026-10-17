@@ -1,0 +1,122 @@
+[
+  {
+    "class_id": "Apple___healthy",
+    "filename": "Apple_healthy_sample_1.JPG",
+    "label": "Apple - Healthy"
+  },
+  {
+    "class_id": "Apple___healthy",
+    "filename": "Apple_healthy_sample_2.JPG",
+    "label": "Apple - Healthy"
+  },
+  {
+    "class_id": "Apple___Black_rot",
+    "filename": "Apple_Black_rot_sample_1.JPG",
+    "label": "Apple - Black Rot"
+  },
+  {
+    "class_id": "Apple___Black_rot",
+    "filename": "Apple_Black_rot_sample_2.JPG",
+    "label": "Apple - Black Rot"
+  },
+  {
+    "class_id": "Corn_(maize)___healthy",
+    "filename": "Corn_maize_healthy_sample_1.jpg",
+    "label": "Corn (Maize) - Healthy"
+  },
+  {
+    "class_id": "Corn_(maize)___healthy",
+    "filename": "Corn_maize_healthy_sample_2.jpg",
+    "label": "Corn (Maize) - Healthy"
+  },
+  {
+    "class_id": "Corn_(maize)___Common_rust_",
+    "filename": "Corn_maize_Common_rust__sample_1.JPG",
+    "label": "Corn (Maize) - Common Rust "
+  },
+  {
+    "class_id": "Corn_(maize)___Common_rust_",
+    "filename": "Corn_maize_Common_rust__sample_2.JPG",
+    "label": "Corn (Maize) - Common Rust "
+  },
+  {
+    "class_id": "Pepper,_bell___healthy",
+    "filename": "Pepper_bell_healthy_sample_1.JPG",
+    "label": "Pepper, Bell - Healthy"
+  },
+  {
+    "class_id": "Pepper,_bell___healthy",
+    "filename": "Pepper_bell_healthy_sample_2.JPG",
+    "label": "Pepper, Bell - Healthy"
+  },
+  {
+    "class_id": "Pepper,_bell___Bacterial_spot",
+    "filename": "Pepper_bell_Bacterial_spot_sample_1.JPG",
+    "label": "Pepper, Bell - Bacterial Spot"
+  },
+  {
+    "class_id": "Pepper,_bell___Bacterial_spot",
+    "filename": "Pepper_bell_Bacterial_spot_sample_2.JPG",
+    "label": "Pepper, Bell - Bacterial Spot"
+  },
+  {
+    "class_id": "Potato___healthy",
+    "filename": "Potato_healthy_sample_1.JPG",
+    "label": "Potato - Healthy"
+  },
+  {
+    "class_id": "Potato___healthy",
+    "filename": "Potato_healthy_sample_2.JPG",
+    "label": "Potato - Healthy"
+  },
+  {
+    "class_id": "Potato___Early_blight",
+    "filename": "Potato_Early_blight_sample_1.JPG",
+    "label": "Potato - Early Blight"
+  },
+  {
+    "class_id": "Potato___Early_blight",
+    "filename": "Potato_Early_blight_sample_2.JPG",
+    "label": "Potato - Early Blight"
+  },
+  {
+    "class_id": "Potato___Late_blight",
+    "filename": "Potato_Late_blight_sample_1.JPG",
+    "label": "Potato - Late Blight"
+  },
+  {
+    "class_id": "Potato___Late_blight",
+    "filename": "Potato_Late_blight_sample_2.JPG",
+    "label": "Potato - Late Blight"
+  },
+  {
+    "class_id": "Tomato___healthy",
+    "filename": "Tomato_healthy_sample_1.jpg",
+    "label": "Tomato - Healthy"
+  },
+  {
+    "class_id": "Tomato___healthy",
+    "filename": "Tomato_healthy_sample_2.jpg",
+    "label": "Tomato - Healthy"
+  },
+  {
+    "class_id": "Tomato___Early_blight",
+    "filename": "Tomato_Early_blight_sample_1.jpg",
+    "label": "Tomato - Early Blight"
+  },
+  {
+    "class_id": "Tomato___Early_blight",
+    "filename": "Tomato_Early_blight_sample_2.jpg",
+    "label": "Tomato - Early Blight"
+  },
+  {
+    "class_id": "Tomato___Late_blight",
+    "filename": "Tomato_Late_blight_sample_1.jpg",
+    "label": "Tomato - Late Blight"
+  },
+  {
+    "class_id": "Tomato___Late_blight",
+    "filename": "Tomato_Late_blight_sample_2.jpg",
+    "label": "Tomato - Late Blight"
+  }
+]

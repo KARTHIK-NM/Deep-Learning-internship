@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhytoScan AI — Plant Disease Detector & Treatment Advisor</title>
+    <meta name="description" content="AI-powered plant disease detection tool. Upload leaf photos to diagnose diseases with high confidence scores and get tailored treatment guides.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Background Ambient Glows -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">PhytoScan<span class="accent">AI</span></span>
+                    <span class="brand-subtitle">Flora Pathology Deep Learning</span>
+                </div>
+            </a>
+
+            <div class="nav-stats">
+                <div class="status-chip">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">MobileNetV2 Active</span>
+                </div>
+                <button id="modelInfoBtn" class="btn-ghost" title="View Model Architecture & Training Metrics">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Model Stats</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-wrapper">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-badge">
+                <i class="fa-solid fa-microscope"></i>
+                <span>Transfer Learning &middot; MobileNetV2 &middot; PlantVillage Dataset</span>
+            </div>
+            <h1 class="hero-title">
+                Diagnose Plant Diseases with <span class="gradient-text">Precision Deep Learning</span>
+            </h1>
+            <p class="hero-description">
+                Upload or capture any crop leaf photo. Our fine-tuned neural network identifies foliar pathogens, reports confidence distributions, and delivers instant agronomic care recommendations.
+            </p>
+        </section>
+
+        <!-- Detection & Analysis Workspace Grid -->
+        <div class="workspace-grid">
+            <!-- Left Column: Upload & Sample Selector -->
+            <div class="control-column">
+                <!-- Dropzone Card -->
+                <div class="card glass-card upload-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <h2>Upload Leaf Image</h2>
+                        </div>
+                        <span class="format-badge">JPG &middot; PNG &middot; WEBP</span>
+                    </div>
+
+                    <div id="dropzone" class="dropzone-area">
+                        <input type="file" id="leafFileInput" accept="image/*" class="file-input-hidden">
+                        
+                        <div class="dropzone-content" id="dropzoneEmpty">
+                            <div class="upload-icon-wrapper">
+                                <i class="fa-solid fa-seedling"></i>
+                            </div>
+                            <h3>Drag & Drop leaf photo here</h3>
+                            <p>or click to select from your computer / phone</p>
+                            <div class="upload-action-buttons">
+                                <button type="button" class="btn btn-primary" id="browseFilesBtn">
+                                    <i class="fa-solid fa-folder-open"></i> Browse Files
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="openCameraBtn">
+                                    <i class="fa-solid fa-camera"></i> Camera
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Image Preview State -->
+                        <div class="dropzone-preview hidden" id="dropzonePreview">
+                            <img id="previewImage" src="" alt="Selected Leaf">
+                            <div class="preview-overlay">
+                                <button type="button" class="btn-icon" id="clearPreviewBtn" title="Remove image">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Camera Modal / Video Stream -->
+                    <div id="cameraModal" class="camera-drawer hidden">
+                        <div class="camera-header">
+                            <span><i class="fa-solid fa-video"></i> Live Camera Feed</span>
+                            <button id="closeCameraBtn" class="btn-icon-sm"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <video id="cameraVideo" autoplay playsinline></video>
+                        <canvas id="cameraCanvas" class="hidden"></canvas>
+                        <div class="camera-footer">
+                            <button id="capturePhotoBtn" class="btn btn-primary">
+                                <i class="fa-solid fa-camera-retro"></i> Capture Leaf Photo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Analyze Action Button -->
+                    <div class="card-footer">
+                        <button type="button" id="analyzeBtn" class="btn btn-emerald btn-block" disabled>
+                            <span class="btn-text"><i class="fa-solid fa-wand-magic-sparkles"></i> Diagnose Foliage</span>
+                            <span class="btn-spinner hidden"><i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing...</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Instant Sample Gallery -->
+                <div class="card glass-card samples-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fa-solid fa-images"></i>
+                            <h3>Quick Test Samples</h3>
+                        </div>
+                        <span class="sample-count-badge" id="sampleCountBadge">Loading...</span>
+                    </div>
+                    <p class="sample-hint">Click any field leaf image below to run instant inference:</p>
+
+                    <div class="samples-scroll-container" id="samplesContainer">
+                        <div class="sample-loading-skeleton">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i> Loading curated samples...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Diagnostic Intelligence Results -->
+            <div class="results-column">
+                <!-- Empty Placeholder State -->
+                <div id="resultsPlaceholder" class="card glass-card placeholder-card">
+                    <div class="placeholder-graphic">
+                        <div class="graphic-rings">
+                            <i class="fa-solid fa-magnifying-glass-chart"></i>
+                        </div>
+                    </div>
+                    <h3>Awaiting Leaf Scan</h3>
+                    <p>Select or drag an image into the upload bay, or click one of the quick test samples to inspect foliar health, disease severity, and recovery guides.</p>
+                    <div class="features-checklist">
+                        <div class="feature-item">
+                            <i class="fa-solid fa-check"></i> 12 Botanical Classes (Apple, Corn, Pepper, Potato, Tomato)
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-check"></i> Sub-second Neural Inference on MobileNetV2
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-check"></i> Organic & Chemical Treatment Recommendations
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Diagnosis Panel (Revealed upon prediction) -->
+                <div id="resultsPanel" class="results-panel hidden">
+                    <!-- Primary Verdict Card -->
+                    <div class="card glass-card verdict-card" id="verdictCard">
+                        <div class="verdict-banner" id="verdictBanner">
+                            <div class="verdict-status-box">
+                                <span class="verdict-badge" id="verdictBadge">DISEASE DETECTED</span>
+                                <span class="severity-badge" id="severityBadge">High Severity</span>
+                            </div>
+                            <div class="crop-header">
+                                <h2 id="diagnosedCondition" class="condition-name">Late Blight</h2>
+                                <p id="diagnosedCrop" class="crop-name">Tomato (Solanum lycopersicum)</p>
+                                <span id="scientificName" class="scientific-name">Phytophthora infestans</span>
+                            </div>
+                        </div>
+
+                        <!-- Score & Gauge Section -->
+                        <div class="score-grid">
+                            <!-- Circular Confidence Meter -->
+                            <div class="confidence-meter-card">
+                                <div class="circular-progress" id="confidenceGauge">
+                                    <div class="inner-circle">
+                                        <span id="confidencePercentage" class="gauge-value">98.4%</span>
+                                        <span class="gauge-label">Confidence</span>
+                                    </div>
+                                </div>
+                                <div class="gauge-caption">AI Diagnostic Certainty</div>
+                            </div>
+
+                            <!-- Pathology Meta Info -->
+                            <div class="pathology-meta-box">
+                                <div class="meta-row">
+                                    <span class="meta-label"><i class="fa-solid fa-dna"></i> Pathogen Type:</span>
+                                    <span class="meta-val" id="metaPathogen">Oomycete (Water Mold)</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label"><i class="fa-solid fa-triangle-exclamation"></i> Threat Level:</span>
+                                    <span class="meta-val" id="metaSeverity">Critical Defoliation Risk</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label"><i class="fa-solid fa-clock-rotate-left"></i> Latency:</span>
+                                    <span class="meta-val" id="metaLatency">&lt; 35 ms</span>
+                                </div>
+                                <p class="condition-summary" id="conditionSummary">
+                                    Late blight is a fast-spreading, highly contagious water mold that attacks tomatoes and potatoes during humid conditions.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prediction Probability Distribution -->
+                    <div class="card glass-card prob-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fa-solid fa-chart-simple"></i>
+                                <h3>Classification Probabilities (Top-5 Predictions)</h3>
+                            </div>
+                        </div>
+                        <div class="prob-list" id="probListContainer">
+                            <!-- Dynamic probability bars -->
+                        </div>
+                    </div>
+
+                    <!-- Actionable Agronomic Prescription Guide -->
+                    <div class="card glass-card treatment-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fa-solid fa-stethoscope"></i>
+                                <h3>Agronomic Care & Remediation Guide</h3>
+                            </div>
+                        </div>
+
+                        <!-- Navigation Tabs -->
+                        <div class="treatment-tabs">
+                            <button class="tab-btn active" data-tab="tab-symptoms">
+                                <i class="fa-solid fa-eye"></i> Symptoms
+                            </button>
+                            <button class="tab-btn" data-tab="tab-organic">
+                                <i class="fa-solid fa-seedling"></i> Organic Remedies
+                            </button>
+                            <button class="tab-btn" data-tab="tab-chemical">
+                                <i class="fa-solid fa-flask"></i> Chemical Controls
+                            </button>
+                            <button class="tab-btn" data-tab="tab-prevention">
+                                <i class="fa-solid fa-shield-halved"></i> Prevention
+                            </button>
+                        </div>
+
+                        <!-- Tab Panes -->
+                        <div class="tab-content">
+                            <!-- Symptoms Pane -->
+                            <div id="tab-symptoms" class="tab-pane active">
+                                <ul class="treatment-list" id="symptomsList">
+                                    <li>Water-soaked, rapidly expanding purplish-brown lesions.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Organic Pane -->
+                            <div id="tab-organic" class="tab-pane">
+                                <ul class="treatment-list" id="organicList">
+                                    <li>Apply fixed copper or copper soap spray.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Chemical Pane -->
+                            <div id="tab-chemical" class="tab-pane">
+                                <ul class="treatment-list" id="chemicalList">
+                                    <li>Apply preventative chlorothalonil or mancozeb.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Prevention Pane -->
+                            <div id="tab-prevention" class="tab-pane">
+                                <ul class="treatment-list" id="preventionList">
+                                    <li>Mulch beneath plants to avoid soil splash.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disease Encyclopedia Strip -->
+        <section class="encyclopedia-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fa-solid fa-book-bookmark"></i> Supported Crop Pathologies</h2>
+                    <p class="section-subtitle">Our deep learning model is fine-tuned to recognize 12 standard healthy and diseased foliar patterns:</p>
+                </div>
+            </div>
+
+            <div class="disease-grid" id="diseaseGrid">
+                <!-- Populated dynamically via JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Model Stats & Architecture Modal -->
+    <div id="modelModal" class="modal-backdrop hidden">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-brain"></i>
+                    <h2>MobileNetV2 Model Performance & Architecture</h2>
+                </div>
+                <button id="closeModalBtn" class="btn-icon"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="metrics-stat-grid" id="metricsStatGrid">
+                    <div class="stat-card">
+                        <span class="stat-num" id="statAccuracy">--</span>
+                        <span class="stat-lbl">Validation Accuracy</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num" id="statTop3">--</span>
+                        <span class="stat-lbl">Top-3 Accuracy</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num" id="statLoss">--</span>
+                        <span class="stat-lbl">Cross-Entropy Loss</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num" id="statParams">2.43 M</span>
+                        <span class="stat-lbl">Network Parameters</span>
+                    </div>
+                </div>
+
+                <div class="training-curve-box">
+                    <h3><i class="fa-solid fa-chart-line"></i> Empirical Training & Validation Curves</h3>
+                    <img id="trainingHistoryImg" src="/static/img/training_history.png" alt="Training Curve Graphs" class="training-chart-img" onerror="this.style.display='none'">
+                </div>
+
+                <div class="arch-details-box">
+                    <h3><i class="fa-solid fa-layer-group"></i> Architecture Summary</h3>
+                    <ul class="arch-features">
+                        <li><strong>Backbone:</strong> MobileNetV2 (ImageNet Transfer Learning, Inverted Residual Blocks)</li>
+                        <li><strong>Input Resolution:</strong> 224 &times; 224 &times; 3 RGB tensor</li>
+                        <li><strong>Augmentation Layers:</strong> Random Flip, Rotation (&plusmn;15&deg;), Zoom (&plusmn;10%), Contrast Adjustment</li>
+                        <li><strong>Classifier Head:</strong> GlobalAveragePooling2D &rarr; BatchNorm &rarr; Dense(128, ReLU, L2) &rarr; Dropout(0.3) &rarr; Dense(12, Softmax)</li>
+                        <li><strong>Fine-Tuning Strategy:</strong> Initial freeze for head warm-up, followed by fine-tuning top 30 depthwise-separable convolutional layers with Adam optimizer (lr=1e-4)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <i class="fa-solid fa-leaf"></i> PhytoScan AI &mdash; Advanced Deep Learning Foliar Pathology
+            </div>
+            <div class="footer-note">
+                Trained on the Open PlantVillage Benchmark &middot; Flask &middot; TensorFlow &middot; MobileNetV2
+            </div>
+        </div>
+    </footer>
+
+    <!-- App JavaScript -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
